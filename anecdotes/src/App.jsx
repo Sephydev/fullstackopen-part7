@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 const Menu = () => {
   const padding = {
@@ -38,13 +39,13 @@ const About = () => (
   </div>
 )
 
-const Footer = () => {
+const Footer = () => (
   <div>
     Anecdote app for <a href='https://fullstackopen.com/'>Full Stack Open</a>
 
     See <a href='https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2020/router-anecdotes/blob/master/src/App.js</a> for the source code.
   </div>
-}
+)
 
 const CreateNew = (props) => {
   const [content, setContent] = useState('')
@@ -122,15 +123,26 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
+  const padding = {
+    paddingRight: 5
+  }
+
   return (
-    <div>
-      <h1>Software anecdotes</h1>
-      <Menu />
-      <AnecdoteList anecdotes={anecdotes} />
-      <About />
-      <CreateNew addNew={addNew} />
+    <Router>
+      <div>
+        <Link to="/" style={padding}>anecdotes</Link>
+        <Link to="/create" style={padding}>create new</Link>
+        <Link to="/about" style={padding}>about</Link>
+      </div>
+
+      <Routes>
+        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
+        <Route path="/create" element={<CreateNew props={addNew} />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+
       <Footer />
-    </div>
+    </Router>
   )
 }
 
