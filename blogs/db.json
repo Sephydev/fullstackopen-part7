@@ -7,10 +7,6 @@
     {
       "id": "2",
       "content": "best feature ever <3"
-    },
-    {
-      "id": "ca82",
-      "content": "Test"
     }
   ],
   "persons": [
@@ -23,11 +19,6 @@
       "id": "2",
       "name": "hellas",
       "number": "012-123123"
-    },
-    {
-      "id": "aa1f",
-      "name": "Test",
-      "number": "Test"
     }
   ]
 }
