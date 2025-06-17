@@ -1,6 +1,8 @@
 import { useState, useEffect, createRef } from "react";
 import { useDispatch } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
+import { initializeBlogs, createBlog } from "./reducers/blogsReducer";
+import { useSelector } from "react-redux";
 
 import blogService from "./services/blogs";
 import loginService from "./services/login";
@@ -12,15 +14,15 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
+  //const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  // const [notification, setNotification] = useState(null);
 
+  const blogs = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+    dispatch(initializeBlogs());
+  }, [dispatch]);
 
   useEffect(() => {
     const user = storage.loadUser();
@@ -47,9 +49,8 @@ const App = () => {
   };
 
   const handleCreate = async (blog) => {
-    const newBlog = await blogService.create(blog);
-    setBlogs(blogs.concat(newBlog));
-    notify(`Blog created: ${newBlog.title}, ${newBlog.author}`);
+    dispatch(createBlog(blog));
+    notify(`Blog created: ${blog.title}, ${blog.author}`);
     blogFormRef.current.toggleVisibility();
   };
 
@@ -60,7 +61,7 @@ const App = () => {
     });
 
     notify(`You liked ${updatedBlog.title} by ${updatedBlog.author}`);
-    setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b)));
+    //setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b)));
   };
 
   const handleLogout = () => {
@@ -72,7 +73,7 @@ const App = () => {
   const handleDelete = async (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       await blogService.remove(blog.id);
-      setBlogs(blogs.filter((b) => b.id !== blog.id));
+      //setBlogs(blogs.filter((b) => b.id !== blog.id));
       notify(`Blog ${blog.title}, by ${blog.author} removed`);
     }
   };
@@ -100,7 +101,7 @@ const App = () => {
       <Togglable buttonLabel="create new blog" ref={blogFormRef}>
         <NewBlog doCreate={handleCreate} />
       </Togglable>
-      {blogs.sort(byLikes).map((blog) => (
+      {[...blogs].sort(byLikes).map((blog) => (
         <Blog
           key={blog.id}
           blog={blog}
