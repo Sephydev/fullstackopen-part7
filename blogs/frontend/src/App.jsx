@@ -9,7 +9,6 @@ import {
 } from "./reducers/blogsReducer";
 import { useSelector } from "react-redux";
 
-import blogService from "./services/blogs";
 import loginService from "./services/login";
 import storage from "./services/storage";
 import Login from "./components/Login";
