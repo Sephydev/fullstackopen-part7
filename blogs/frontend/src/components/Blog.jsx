@@ -1,49 +1,22 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import storage from '../services/storage'
+import PropTypes from "prop-types";
+import { Link } from "react-router";
 
-const Blog = ({ blog, handleVote, handleDelete }) => {
-  const [visible, setVisible] = useState(false)
-
-  const nameOfUser = blog.user ? blog.user.name : 'anonymous'
-
+const Blog = ({ blog }) => {
   const style = {
-    border: 'solid',
+    border: "solid",
     padding: 10,
     borderWidth: 1,
-    marginBottom: 5
-  }
-
-  const canRemove = blog.user ? blog.user.username === storage.me() : true
+    marginBottom: 5,
+  };
 
   return (
-    <div style={style} className='blog'>
-      {blog.title} by {blog.author}
-      <button style={{ marginLeft: 3 }} onClick={() => setVisible(!visible)}>
-        {visible ? 'hide' : 'view'}
-      </button>
-      {visible && (
-        <div>
-          <div><a href={blog.url}>{blog.url}</a></div>
-          <div>
-            likes {blog.likes}
-            <button
-              style={{ marginLeft: 3 }}
-              onClick={() => handleVote(blog)}
-            >
-              like
-            </button>
-          </div>
-          <div>{nameOfUser}</div>
-          {canRemove && <button onClick={() => handleDelete(blog)}>
-            remove
-          </button>
-          }
-        </div>
-      )}
+    <div style={style} className="blog">
+      <Link to={`/blogs/${blog.id}`}>
+        {blog.title} by {blog.author}
+      </Link>
     </div>
-  )
-}
+  );
+};
 
 Blog.propTypes = {
   blog: PropTypes.shape({
@@ -53,7 +26,7 @@ Blog.propTypes = {
     user: PropTypes.object,
   }).isRequired,
   handleVote: PropTypes.func.isRequired,
-  handleDelete: PropTypes.func.isRequired
-}
+  handleDelete: PropTypes.func.isRequired,
+};
 
-export default Blog
+export default Blog;
