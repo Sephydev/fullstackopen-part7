@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import blogsService from "../services/blogs";
+import { setNotification } from "./notificationReducer";
 
 const blogsSlice = createSlice({
   name: "blogs",
@@ -34,8 +35,20 @@ export const initializeBlogs = () => {
 
 export const createBlog = (content) => {
   return async (dispatch) => {
-    const newBlog = await blogsService.create(content);
-    dispatch(newBlogAction(newBlog));
+    try {
+      const newBlog = await blogsService.create(content);
+      dispatch(newBlogAction(newBlog));
+      dispatch(
+        setNotification({
+          message: `Blog created: ${newBlog.title}, ${newBlog.author}`,
+          type: "success",
+        })
+      );
+    } catch {
+      dispatch(
+        setNotification({ message: "Title or URL missing", type: "error" })
+      );
+    }
   };
 };
 
@@ -48,13 +61,25 @@ export const incrementLikes = (id) => {
       likes: blogToModify.likes + 1,
     });
     dispatch(likeAction(blogModified));
+    dispatch(
+      setNotification({
+        message: `You liked ${blogModified.title} by ${blogModified.author}`,
+        type: "success",
+      })
+    );
   };
 };
 
-export const removeBlog = (id) => {
+export const removeBlog = (blog) => {
   return async (dispatch) => {
-    await blogsService.remove(id);
-    dispatch(removeBlogAction(id));
+    await blogsService.remove(blog.id);
+    dispatch(removeBlogAction(blog.id));
+    dispatch(
+      setNotification({
+        message: `Blog ${blog.title}, by ${blog.author} removed`,
+        type: "success",
+      })
+    );
   };
 };
 
