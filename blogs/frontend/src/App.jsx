@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, useMatch } from "react-router";
 
-import { setAutoUser, loginUser, logout } from "./reducers/loginReducer";
+import { setAutoUser, loginUser } from "./reducers/loginReducer";
 import { initializeUsers } from "./reducers/usersReducer";
 import { initializeBlogs } from "./reducers/blogsReducer";
 
@@ -12,6 +12,7 @@ import BlogsSection from "./components/BlogsSection";
 import BlogDetail from "./components/BlogDetail";
 import UsersSection from "./components/UsersSection";
 import User from "./components/User";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   const login = useSelector((state) => state.login);
@@ -33,10 +34,6 @@ const App = () => {
 
   const handleLogin = (credentials) => {
     dispatch(loginUser(credentials));
-  };
-
-  const handleLogout = () => {
-    dispatch(logout());
   };
 
   const userMatch = useMatch("/user/:id");
@@ -61,12 +58,10 @@ const App = () => {
 
   return (
     <div>
+      <Navbar login={login} />
       <h2>Blogs</h2>
       <Notification />
-      <div>
-        <p>{login.name} logged in</p>
-        <button onClick={handleLogout}>logout</button>
-      </div>
+      <div></div>
 
       <Routes>
         <Route path="/" element={<BlogsSection blogs={blogs} />} />
