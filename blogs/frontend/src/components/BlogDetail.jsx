@@ -40,23 +40,25 @@ const BlogDetail = ({ blog }) => {
 
   return (
     <>
-      <h2>{blog.title}</h2>
-      <a href={blog.url}>{blog.url}</a>
-      <p>
-        {blog.likes} likes <button onClick={handleVote}>like</button>
-      </p>
-      <p>added by {blog.user.name}</p>
-      <button onClick={handleDelete}>delete</button>
-      <h3>comments</h3>
-      <form onSubmit={handleSubmit}>
-        <input type="text" onChange={handleComment} value={comment} />
-        <button>add comment</button>
-      </form>
-      <ul>
-        {blog.comments.map((comment, index) => (
-          <li key={index}>{comment}</li>
-        ))}
-      </ul>
+      <h3>{blog.title}</h3>
+      <div className="blogDetail">
+        <a href={blog.url}>{blog.url}</a>
+        <p>
+          {blog.likes} likes <button onClick={handleVote}>like</button>
+        </p>
+        <p>added by {blog.user.name}</p>
+        <button onClick={handleDelete}>delete</button>
+        <h3>comments</h3>
+        <form onSubmit={handleSubmit}>
+          <input type="text" onChange={handleComment} value={comment} />
+          <button>add comment</button>
+        </form>
+        <ul>
+          {blog.comments.map((comment, index) => (
+            <li key={index}>{comment}</li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 };

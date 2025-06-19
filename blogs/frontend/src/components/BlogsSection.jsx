@@ -19,14 +19,14 @@ const BlogsSection = ({ blogs }) => {
   const byLikes = (a, b) => b.likes - a.likes;
 
   return (
-    <>
+    <div className="blogsContainer">
       <Togglable buttonLabel="create new blog" ref={blogFormRef}>
         <NewBlog doCreate={handleCreate} />
       </Togglable>
       {[...blogs].sort(byLikes).map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
-    </>
+    </div>
   );
 };
 

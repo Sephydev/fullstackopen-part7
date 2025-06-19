@@ -13,12 +13,16 @@ const Navbar = ({ login }) => {
     marginRight: 5,
   };
 
-  const bgColor = {
-    backgroundColor: "lightgray",
+  const navbarStyle = {
+    backgroundColor: "gray",
+    padding: "1em",
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
   };
 
   return (
-    <div style={bgColor}>
+    <div style={navbarStyle}>
       <Link style={margin} to="/">
         blogs
       </Link>

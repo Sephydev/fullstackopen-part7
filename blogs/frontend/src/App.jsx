@@ -48,7 +48,7 @@ const App = () => {
 
   if (!login) {
     return (
-      <div>
+      <div className="login-container">
         <h2>Blogs</h2>
         <Notification />
         <Login doLogin={handleLogin} />
@@ -57,7 +57,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className="container">
       <Navbar login={login} />
       <h2>Blogs</h2>
       <Notification />

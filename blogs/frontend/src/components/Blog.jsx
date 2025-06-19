@@ -7,6 +7,8 @@ const Blog = ({ blog }) => {
     padding: 10,
     borderWidth: 1,
     marginBottom: 5,
+    width: "75%",
+    borderRadius: 10,
   };
 
   return (
