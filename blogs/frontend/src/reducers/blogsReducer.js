@@ -9,7 +9,7 @@ const blogsSlice = createSlice({
     newBlogAction(state, action) {
       return [...state, action.payload];
     },
-    likeAction(state, action) {
+    modifyBlog(state, action) {
       return state.map((blog) =>
         blog.id === action.payload.id ? action.payload : blog
       );
@@ -23,7 +23,7 @@ const blogsSlice = createSlice({
   },
 });
 
-export const { newBlogAction, setBlogs, likeAction, removeBlogAction } =
+export const { newBlogAction, setBlogs, modifyBlog, removeBlogAction } =
   blogsSlice.actions;
 
 export const initializeBlogs = () => {
@@ -60,10 +60,28 @@ export const incrementLikes = (id) => {
       ...blogToModify,
       likes: blogToModify.likes + 1,
     });
-    dispatch(likeAction(blogModified));
+    dispatch(modifyBlog(blogModified));
     dispatch(
       setNotification({
         message: `You liked ${blogModified.title} by ${blogModified.author}`,
+        type: "success",
+      })
+    );
+  };
+};
+
+export const addComment = (id, newComment) => {
+  return async (dispatch) => {
+    const blogs = await blogsService.getAll();
+    const blogToModify = blogs.find((blog) => blog.id === id);
+    const blogModified = await blogsService.update(id, {
+      ...blogToModify,
+      comments: blogToModify.comments.concat(newComment),
+    });
+    dispatch(modifyBlog(blogModified));
+    dispatch(
+      setNotification({
+        message: `You commented ${newComment} on ${blogModified.title}`,
         type: "success",
       })
     );
